@@ -196,6 +196,37 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        //return [];
+
+        // Check the feature collection for features or null
+        if (featureCollection == null || featureCollection.Features == null)
+        {
+            // If no features return the empty array
+            return Array.Empty<string>();
+        }
+
+        // This is the list for holding the earthquake descriptions
+        List<string> earthquakeDescriptions = new List<string>();
+
+        // For each loop for looping through each feature in the feature collection
+        foreach (var feature in featureCollection.Features)
+        {
+            var place = feature.Properties.Place ?? "Unknown place"; 
+            var mag = feature.Properties.Mag;
+
+            // Ensure that the magnitude is valid before we add it
+            if (!double.IsNaN(mag))
+            {
+                // This makes the string match the expected result
+                earthquakeDescriptions.Add($"{place} - Mag {mag}");
+            }
+            else
+            {
+                earthquakeDescriptions.Add($"{place} - Mag data not available");
+            }
+        }
+
+        // Returns the list as an array
+        return earthquakeDescriptions.ToArray();
     }
 }

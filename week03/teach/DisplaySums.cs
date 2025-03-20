@@ -33,7 +33,10 @@
     private static void DisplaySumPairs(int[] numbers) {
         // TODO Problem 2 - This should print pairs of numbers in the given array
 
+        // Create a hashset to store the numbers
         var displayNumbers = new HashSet<int>();
+
+        // Iterate through the numbers and check which ones add up to 10
         foreach (var number in numbers)
         {
             if(displayNumbers.Contains(10 - number)) 

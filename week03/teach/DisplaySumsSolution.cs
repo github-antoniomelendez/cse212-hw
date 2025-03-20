@@ -21,6 +21,9 @@
         // Should show something like (order does not matter):
         // 8 2
         // -1 11
+
+        Console.WriteLine("------------");
+        DisplaySumPairs([7, 3, -2, 12, -3, -7, 18, -8, 33, -23, 8, 10, 12, -2]);
     }
 
     /**

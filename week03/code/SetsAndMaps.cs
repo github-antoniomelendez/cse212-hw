@@ -22,7 +22,35 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        
+        // HashSet to store the words as we encounter them
+        HashSet<string> wordSet = new HashSet<string>();
+        // List to store the result pairs
+        List<string> result = new List<string>();
+
+        foreach (var word in words)
+        {
+            // Skip if the word has the same two letters (e.g., "aa") because no matches are allowed
+            if (word[0] == word[1])
+            {
+                continue;
+            }
+
+            // Reverse the word
+            string reversedWord = new string(word.ToCharArray().Reverse().ToArray());
+
+            // If the reversed word exists in the set, add it as a symmetric pair
+            if (wordSet.Contains(reversedWord))
+            {
+                result.Add(word + " & " + reversedWord);
+            }
+
+            // Add the current word to the set
+            wordSet.Add(word);
+        }
+
+        // Return the result as an array
+        return result.ToArray();
     }
 
     /// <summary>

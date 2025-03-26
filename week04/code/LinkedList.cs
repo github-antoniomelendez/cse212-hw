@@ -33,6 +33,26 @@ public class LinkedList : IEnumerable<int>
     public void InsertTail(int value)
     {
         // TODO Problem 1
+        // Create a new node
+        Node newNode = new Node(value);
+
+        // If the list is empty, make the new node the head of the list
+        if (_head == null)
+        {
+            _head = newNode;
+            _tail = newNode;
+        }
+        else
+        {
+            // Otherwise, find the last node and insert the new node there
+            Node current = _head;
+            while (current.Next != null) // Traverse until the last node
+            {
+                current = current.Next;
+            }
+
+            current.Next = newNode;  // Link the new node to the last node
+        }
     }
 
 
@@ -65,6 +85,29 @@ public class LinkedList : IEnumerable<int>
     public void RemoveTail()
     {
         // TODO Problem 2
+        // Case 1: If the list is empty, there is nothing to remove.
+        if (_head == null)
+        {
+            return;
+        }
+
+        // Case 2: If there's only one node, we remove it.
+        if (_head.Next == null)
+        {
+            _head = null;
+            _tail = null;
+            return;
+        }
+
+        // Case 3: If there are multiple nodes, we need to find the second-to-last node.
+        Node current = _head;
+        while (current.Next != null && current.Next.Next != null)
+        {
+            current = current.Next;
+        }
+
+        // Now current is the second-to-last node, set its next to null to remove the tail.
+        current.Next = null;
     }
 
     /// <summary>
@@ -109,6 +152,31 @@ public class LinkedList : IEnumerable<int>
     public void Remove(int value)
     {
         // TODO Problem 3
+        if (_head == _tail)
+        {
+            _head = null;
+            _tail = null;
+            return; // List is empty, nothing to remove.
+        }
+        // Special case: if the head node contains the value
+        if (_head.Data == value)
+        {
+            _head = _head.Next; // Remove the head node by setting head to the next node
+            return;
+        }
+
+        // Traverse the list to find the node to remove
+        Node current = _head;
+        while (current.Next != null)
+        {
+            if (current.Next.Data == value)
+            {
+                current.Next = current.Next.Next; // Skip over the node to remove it
+                return;
+            }
+
+            current = current.Next;
+        }
     }
 
     /// <summary>
@@ -117,6 +185,26 @@ public class LinkedList : IEnumerable<int>
     public void Replace(int oldValue, int newValue)
     {
         // TODO Problem 4
+        if (_head == null)
+        return;
+
+        if (_head.Data == oldValue)
+        {
+            _head = _head.Next;
+            return;
+        }
+
+        Node current = _head;
+        
+        // Iterate through the list and replace all occurrences of oldValue
+        while (current != null)
+        {
+            if (current.Data == oldValue)
+            {
+                current.Data = newValue;
+            }
+            current = current.Next;
+        }
     }
 
     /// <summary>
@@ -147,7 +235,22 @@ public class LinkedList : IEnumerable<int>
     public IEnumerable Reverse()
     {
         // TODO Problem 5
-        yield return 0; // replace this line with the correct yield return statement(s)
+        // yield return 0; // replace this line with the correct yield return statement(s)
+        Stack<int> stack = new Stack<int>(); // Use a stack to reverse the iteration
+
+        // Traverse the linked list and push each element into the stack
+        var curr = _head;
+        while (curr is not null)
+        {
+            stack.Push(curr.Data); // Push each item onto the stack
+            curr = curr.Next; // Go forward in the linked list
+        }
+
+        // Yield each element from the stack (which gives us the reverse order)
+        while (stack.Count > 0)
+        {
+            yield return stack.Pop(); // Pop from the stack (last in, first out)
+        }
     }
 
     public override string ToString()

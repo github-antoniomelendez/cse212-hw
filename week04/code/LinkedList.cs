@@ -160,7 +160,7 @@ public class LinkedList : IEnumerable<int>
             return; 
         }
         // If the head node contains the value. Remove head node by setting head to the next node
-        if (_head.Data == value)
+        if (_head!.Data == value)
         {
             _head = _head.Next;
             return;
@@ -168,7 +168,7 @@ public class LinkedList : IEnumerable<int>
 
         // Traverse the list to find the node to remove. Once found, skip over it to remove it (current.Next.Next)
         Node current = _head;
-        while (current.Next != null)
+        while (current.Next is not null)
         {
             if (current.Next.Data == value)
             {
@@ -193,13 +193,13 @@ public class LinkedList : IEnumerable<int>
         Node current = _head;
         
         // Iterate through the list and replace all occurrences of oldValue
-        while (current != null)
+        while (current is not null)
         {
             if (current.Data == oldValue)
             {
                 current.Data = newValue;
             }
-            current = current.Next;
+            current = current.Next!;
         } 
     }
 

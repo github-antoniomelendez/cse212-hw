@@ -36,7 +36,7 @@ public class LinkedList : IEnumerable<int>
         // Create a new node
         Node newNode = new Node(value);
 
-        // If the list is empty, make the new node the head of the list
+        // If the list is empty, point head and tal back to the new node
         if (_head == null)
         {
             _head = newNode;
@@ -85,13 +85,13 @@ public class LinkedList : IEnumerable<int>
     public void RemoveTail()
     {
         // TODO Problem 2
-        // Case 1: If the list is empty, there is nothing to remove.
+        // If the list is empty, there is nothing to remove.
         if (_head == null)
         {
             return;
         }
 
-        // Case 2: If there's only one node, we remove it.
+        // If there's only one node, we remove it.
         if (_head.Next == null)
         {
             _head = null;
@@ -99,7 +99,7 @@ public class LinkedList : IEnumerable<int>
             return;
         }
 
-        // Case 3: If there are multiple nodes, we need to find the second-to-last node.
+        // If there are multiple nodes, we need to find the second-to-last node.
         Node current = _head;
         while (current.Next != null && current.Next.Next != null)
         {
@@ -152,26 +152,27 @@ public class LinkedList : IEnumerable<int>
     public void Remove(int value)
     {
         // TODO Problem 3
+        // If list is empty, there is nothing to remove
         if (_head == _tail)
         {
             _head = null;
             _tail = null;
-            return; // List is empty, nothing to remove.
+            return; 
         }
-        // Special case: if the head node contains the value
+        // If the head node contains the value. Remove head node by setting head to the next node
         if (_head.Data == value)
         {
-            _head = _head.Next; // Remove the head node by setting head to the next node
+            _head = _head.Next;
             return;
         }
 
-        // Traverse the list to find the node to remove
+        // Traverse the list to find the node to remove. Once found, skip over it to remove it (current.Next.Next)
         Node current = _head;
         while (current.Next != null)
         {
             if (current.Next.Data == value)
             {
-                current.Next = current.Next.Next; // Skip over the node to remove it
+                current.Next = current.Next.Next;
                 return;
             }
 
@@ -185,14 +186,9 @@ public class LinkedList : IEnumerable<int>
     public void Replace(int oldValue, int newValue)
     {
         // TODO Problem 4
+        //if the list is empty, there is nothing to do
         if (_head == null)
         return;
-
-        if (_head.Data == oldValue)
-        {
-            _head = _head.Next;
-            return;
-        }
 
         Node current = _head;
         
@@ -204,7 +200,7 @@ public class LinkedList : IEnumerable<int>
                 current.Data = newValue;
             }
             current = current.Next;
-        }
+        } 
     }
 
     /// <summary>
@@ -236,7 +232,8 @@ public class LinkedList : IEnumerable<int>
     {
         // TODO Problem 5
         // yield return 0; // replace this line with the correct yield return statement(s)
-        Stack<int> stack = new Stack<int>(); // Use a stack to reverse the iteration
+        // Use a stack to reverse the iteration
+        Stack<int> stack = new Stack<int>();
 
         // Traverse the linked list and push each element into the stack
         var curr = _head;

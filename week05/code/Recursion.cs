@@ -161,6 +161,21 @@ public static class Recursion
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+        // Base case: if the pattern contains no '*', add it to the results
+        if (!pattern.Contains("*"))
+        {
+            results.Add(pattern);
+            return;
+        }
+
+        // Recursive case: Find the first '*' and generate two branches
+        int starIndex = pattern.IndexOf('*');
+
+        // Replace '*' with '0' and recurse
+        WildcardBinary(pattern.Substring(0, starIndex) + '0' + pattern.Substring(starIndex + 1), results);
+
+        // Replace '*' with '1' and recurse
+        WildcardBinary(pattern.Substring(0, starIndex) + '1' + pattern.Substring(starIndex + 1), results);
     }
 
     /// <summary>

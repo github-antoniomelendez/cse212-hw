@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Numerics;
 
 public static class Recursion
 {
@@ -15,7 +16,17 @@ public static class Recursion
     public static int SumSquaresRecursive(int n)
     {
         // TODO Start Problem 1
-        return 0;
+        // Base case: if n is less than or equal to 0, return 0
+        if (n <= 0)
+        {
+            return 0;
+        }
+        else
+        {
+        // Recursive case: return n^2 + the result for (n-1)
+        return n * n + SumSquaresRecursive(n - 1);
+        }
+        //return 0;
     }
 
     /// <summary>
@@ -40,6 +51,24 @@ public static class Recursion
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
         // TODO Start Problem 2
+        // Base case: if the current word has reached the desired size, add it to the results
+        if (word.Length == size)
+        {
+            results.Add(word);
+            return;
+        }
+
+        // Recursive case: iterate through each letter and form permutations
+        for (int i = 0; i < letters.Length; i++)
+        {
+            // Choose the current letter and recurse
+            string newWord = word + letters[i];
+            // Exclude the current letter from the remaining options (so it can't be reused)
+            string remainingLetters = letters.Substring(0, i) + letters.Substring(i + 1);
+        
+            // Recursively generate permutations with the new word and reduced list of letters
+            PermutationsChoose(results, remainingLetters, size, newWord);
+        }
     }
 
     /// <summary>
@@ -86,9 +115,12 @@ public static class Recursion
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
+        // Initialize the dictionary if it's null
+        remember ??= new Dictionary<int, decimal>();
+
         // Base Cases
         if (s == 0)
-            return 0;
+            return 1;
         if (s == 1)
             return 1;
         if (s == 2)
@@ -97,10 +129,20 @@ public static class Recursion
             return 4;
 
         // TODO Start Problem 3
+        // Check if the result for this 's' is already computed
+        if (remember.ContainsKey(s))
+        {
+            return remember[s];
+        }
 
-        // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        // Solve using recursion and passing the remember dictionary using memoization
+        decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+
+        // Store the result in the remember dictionary
+        remember[s] = ways;
+
         return ways;
+        
     }
 
     /// <summary>

@@ -195,6 +195,37 @@ public static class Recursion
         // TODO Start Problem 5
         // ADD CODE HERE
 
+        // If the current move is not valid, return early
+        if (!maze.IsValidMove(currPath, x, y)) {
+            return;
+        }
+
+        // Add the current position to the path
+        currPath.Add((x, y));
+
+        // If we've reached the end of the maze, add the current path to results
+        if (maze.IsEnd(x, y)) {
+            // Format the path correctly (as expected in the test case)
+            var pathString = "<List>{" + string.Join(", ", currPath.Select(p => $"({p.Item1}, {p.Item2})")) + "}";
+            results.Add(pathString);
+        } else {
+            // Explore all four directions (up, down, left, right)
+            // Up (x, y - 1)
+            SolveMaze(results, maze, x, y - 1, currPath);
+
+            // Down (x, y + 1)
+            SolveMaze(results, maze, x, y + 1, currPath);
+
+            // Left (x - 1, y)
+            SolveMaze(results, maze, x - 1, y, currPath);
+
+            // Right (x + 1, y)
+            SolveMaze(results, maze, x + 1, y, currPath);
+        }
+
+        // Backtrack: remove the current position from the path
+        currPath.RemoveAt(currPath.Count - 1);
+
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
     }
 }
